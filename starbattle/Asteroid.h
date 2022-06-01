@@ -11,7 +11,6 @@ public:
 		width = sprite_width;
 		height = sprite_height;
 		mass = sprite_mass;
-		type = "Asteroid";
 	};
 
 	virtual ~Asteroid(){};
@@ -26,7 +25,8 @@ public:
 			>= sqrt(pow(GetCenter().first - element->GetCenter().first, 2)
 				+ pow(GetCenter().second - element->GetCenter().second, 2)))
 		{
-			if (element->GetType() == "Asteroid")//костыль
+			//if (element->GetType() == "Asteroid")//костыль
+			if (dynamic_cast<Asteroid*>(element))
 			{
 				std::pair<double, double> result = CountCollision(element);
 				element->SetSpeed(result.first, result.second);
@@ -68,7 +68,6 @@ public:
 		width = 68;
 		height = 60;
 		mass = 10;
-		type = "Asteroid";
 	};
 	
 	std::pair<SmallAsteroid, SmallAsteroid> Split() {
@@ -94,7 +93,6 @@ public:
 		width = 44;
 		height = 36;
 		mass = 6;
-		type = "Asteroid";
 	};
 
 private:

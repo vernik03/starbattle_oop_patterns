@@ -8,7 +8,6 @@ public:
 		sprite = createSprite(sprite_path);
 		width = sprite_width;
 		height = sprite_height;
-		type = "MovableSprite";
 	};
 
 	virtual ~MovableSprite() {};

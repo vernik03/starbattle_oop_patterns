@@ -9,7 +9,6 @@ public:
 	HeadSprite() {};
 	HeadSprite(const char* sprite_path, double sprite_width, double sprite_height) : width(sprite_width), height(sprite_height) {
 		sprite = createSprite(sprite_path);
-		type = "HeadSprite";
 	};
 	
 	virtual ~HeadSprite(){};
@@ -55,15 +54,10 @@ public:
 		return global_y - WINDOW_Y;
 	}
 
-	std::string GetType() {
-		return type;
-	}
-
 protected:
 	Sprite* sprite;
 	double width;
 	double height;
 	double global_x;
 	double global_y;
-	std::string type;
 };

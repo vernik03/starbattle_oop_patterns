@@ -158,8 +158,11 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="curl.h" />
     <ClInclude Include="HeadSprite.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="MapCreator.h" />
     <ClInclude Include="MovableSprite.h" />
+    <ClInclude Include="Ship.h" />
+    <ClInclude Include="SuperPower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
