@@ -4,11 +4,10 @@
 static class Background : public HeadSprite
 {
 public:
-	Background() {};
-	Background(const char* sprite_path, double sprite_width, double sprite_height) {
-		sprite = createSprite(sprite_path);
-		width = sprite_width;
-		height = sprite_height;
+	Background() {
+		sprite = createSprite("data/background_2.png");
+		width = 1000;
+		height = 1000;
 	};
 	~Background();
 

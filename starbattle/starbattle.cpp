@@ -32,7 +32,7 @@ public:
 
 	virtual bool Init() {
 
-		
+		map_manager = std::make_unique<MapCreator>();		
 		return true;
 	}
 
@@ -218,41 +218,15 @@ int main(int argc, char** argv)
 	
 	srand(time(NULL));
 	
-	//поток1
 	std::thread t1([]() {
 		while (true)
 		{
 			run(new MyFramework);
 		}
 	});
-	//поток2
+	
 	std::thread t2([]() {
-		/*CURL* curl_handle;
-		CURLcode res;
-
-		struct MemoryStruct chunk;
-		chunk.memory = (char*)(std::malloc(1));
-		chunk.size = 0;
-
-		curl_handle = curl_easy_init();
-		if (curl_handle) {
-			curl_easy_setopt(curl_handle, CURLOPT_URL, "https://vernik03.ml/");
-			curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
-			curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
-			curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void*)&chunk);
-			curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-
-			res = curl_easy_perform(curl_handle);
-
-			if (res != CURLE_OK) {
-				fprintf(stderr, "error: %s\n", curl_easy_strerror(res));
-			}
-			else {
-				printf("Size: %lu\n", (unsigned long)chunk.size);
-				printf("Data: %s\n", chunk.memory);
-			}
-			curl_easy_cleanup(curl_handle);
-			free(chunk.memory);*/
+		//boost::asio
 	});
 	
 	t1.join();

@@ -64,6 +64,12 @@ public:
 	virtual  void SendMouseClickEvent(...) {};
 	
 	virtual  void SendKeyPressEvent(...) {};
+
+	double Distance(HeadSprite* object) {
+		return sqrt(pow(GetCenter().first - object.GetCenter().first, 2) 
+			+ pow(GetCenter().second - object.GetCenter().second, 2)) 
+			- GetRadius() - object.GetRadius();
+	}
 	
 
 protected:

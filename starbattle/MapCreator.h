@@ -23,28 +23,80 @@ public:
 
 public:
 	MapCreator(){
-		background = new Background("data/background_2.png", 1000, 1000);
-		//mouse_click_event->Subscribe();
+		background = new Background();
+
+		ObserverSubscribes();
 		
-		key_press_event->Subscribe(&main_hero);
-		
-		mouse_move_event->Subscribe(&main_hero);
-		mouse_move_event->Subscribe(&(inter.GetReticle()));
-		
-		for (int i = 0; i < NUM_ASTEROIDS; i++)
+		for (int i = 0; i < NUM_ASTEROIDS(); i++)
 		{
-			if (i < NUM_ASTEROIDS / 2)
+			if (i < NUM_ASTEROIDS() / 2)
 			{
-				asteroids.push_back(new BigAsteroid(rand() % MAP_WIDTH, rand() % MAP_HEIGHT));
+				asteroids.push_back(new BigAsteroid(rand() % MAP_WIDTH, rand() % MAP_HEIGHT, rand() % 10 - 5));
 			}
 			else
 			{
-				asteroids.push_back(new SmallAsteroid(rand() % MAP_WIDTH, rand() % MAP_HEIGHT));
+				asteroids.push_back(new SmallAsteroid(rand() % MAP_WIDTH, rand() % MAP_HEIGHT, rand() % 10 - 5));
 			}
 		}
+
+		for(auto astroid : asteroids)
+		{
+			while (AllAsteroidsCheckCollision(astroid))
+			{
+				astroid->SetCoords(rand() % MAP_WIDTH, rand() % MAP_HEIGHT);
+			}
+			
+		}
+
+		main_hero.SetCoords(rand() % MAP_WIDTH, rand() % MAP_HEIGHT);
+
+		
+
+		
 		
 	};
 	~MapCreator(){};
+
+	bool AllAsteroidsCheckCollision(MovableSprite* object) {
+		for (auto astroid_check : asteroids)
+		{
+			if (astroid_check->CheckCollision(object))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool AllShipsCheckCollision(HeadSprite* object) {
+
+		///////////!!!!
+		{
+			for (auto astroid_check : asteroids)
+			{
+				while (main_hero.Distance(astroid_check) < 50 && main_hero.Distance(enemy) < 300)
+				{
+					main_hero.SetCoords(rand() % MAP_WIDTH, rand() % MAP_HEIGHT);
+				}
+			}
+		}
+		for (auto enemy : ships)
+		{
+			if (enemy->CheckCollision(object))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	void ObserverSubscribes() {
+		//mouse_click_event->Subscribe();
+		key_press_event->Subscribe(&main_hero);
+		mouse_move_event->Subscribe(&main_hero);
+		mouse_move_event->Subscribe(&(inter.GetReticle()));
+	}
 
 	void AddShip(int x, int y, Rotation rot) {
 		
@@ -55,7 +107,7 @@ public:
 	}
 	
 	void AddAsteroid(int x, int y, Rotation rot) {
-		asteroids.push_back(new BigAsteroid(rand() % MAP_WIDTH, rand() % MAP_HEIGHT));
+		asteroids.push_back(new BigAsteroid(rand() % MAP_WIDTH, rand() % MAP_HEIGHT, rand() % 10 - 5));
 	}
 
 	

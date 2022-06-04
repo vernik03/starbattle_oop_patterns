@@ -56,18 +56,20 @@ private:
 		double vy2 = element->GetSpeed().second + p * element->GetMass() * ny;
 		double vx2 = element->GetSpeed().first + p * element->GetMass() * nx;
 		return std::make_pair(vx2, vy2);
-	}
-	
+	}	
 };
 
 class BigAsteroid : public Asteroid
 {
 public:
-	BigAsteroid(int x, int y) {
+	BigAsteroid(int x, int y, double speed) {
 		sprite = createSprite("data/big_asteroid.png"); // легковес!!
 		width = 68;
 		height = 60;
 		mass = 10;
+		y_speed = speed;
+		x_speed = speed;
+		SetCoordsByCenter(x, y);
 	};
 	
 	std::pair<SmallAsteroid, SmallAsteroid> Split() {
@@ -88,11 +90,13 @@ private:
 class SmallAsteroid : public Asteroid
 {
 public:
-	SmallAsteroid(int x, int y) {
+	SmallAsteroid(int x, int y, double speed) {
 		sprite = createSprite("data/small_asteroid.png");// легковес!!
 		width = 44;
 		height = 36;
 		mass = 6;
+		SetCoordsByCenter(x, y);
+		
 	};
 
 private:
