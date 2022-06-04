@@ -31,7 +31,7 @@ public:
 		return mass;
 	}
 
-	void Border() {
+	virtual void Border() {
 
 		if (global_x + width / 2 >= MAP_WIDTH)
 		{

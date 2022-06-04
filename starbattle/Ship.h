@@ -2,14 +2,6 @@
 #include "MovableSprite.h"
 #include "SuperPower.h"
 
-enum Rotation
-{
-	Top,
-	Left,
-	Bottom,
-	Right
-};
-
 class Ship : public MovableSprite
 {
 public:
@@ -20,6 +12,7 @@ public:
 		height = sprite_height;
 	};
 	virtual ~Ship() {};
+
 	
 	void SetRotation(Rotation rot) {
 		rotation = rot;
@@ -84,6 +77,9 @@ public:
 		}
 	}
 
+	void Shoot() {
+		bullets.push_back(new Bullet(GetCoords().first + GetSize().second / 2, GetCoords().second + GetSize().first / 2));
+	}
 
 protected:
 	HeadSprite* power;  //?
@@ -91,6 +87,7 @@ protected:
 	double impulse = 1.01;
 	double control_impulse = 0.01;
 	double engine_power_speed = 2;
+	std::vector<Bullet*> bullets;
 };
 
 class MainHeroShip : public Ship
@@ -127,6 +124,15 @@ public:
 		}
 	}
 
+
+	void SendMouseMoveEvent(int x, int y) {
+		GetRotationByMouse(x, y);
+	};
+
+	void SendKeyPressEvent(FRKey k) {
+		MoveManual(k);
+	};
+
 	void MoveManual(FRKey k) {
 		switch (k)
 		{
@@ -158,15 +164,40 @@ private:
 class EnemyShip : public Ship
 {
 public:
-	EnemyShip(Rotation rot) {
+	EnemyShip(int x, int y, Rotation rot) {
 		sprite = createSprite("data/ships/enemy/spaceship.png");
 		width = 48;
 		height = 48;
-		rotation = Rotation::Top;
 		SetRotation(rot);
+		global_x = x;
+		global_y = y;
 	};
 	~EnemyShip() {};
 
 private:
 
+};
+
+
+class Bullet : public MovableSprite
+{
+public:
+	Bullet(int x, int y) {
+		sprite = createSprite("data/bullet.png");
+		width = 13;
+		height = 13;
+		global_x = x;
+		global_y = y;
+	};
+	~Bullet() {};
+
+	void Border() override{
+		if ((global_x + width / 2 >= MAP_WIDTH) 
+			|| (global_x < (width / 2) * -1)
+			|| (global_y + height / 2 >= MAP_HEIGHT)
+			|| (global_y < (height / 2) * -1))
+		{
+			delete this;
+		}
+	}
 };

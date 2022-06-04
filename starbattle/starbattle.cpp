@@ -14,6 +14,7 @@
 #include "Framework.h"
 #include "GlobalVariables.h"
 #include "curl.h"
+#include "MapCreator.h"
 
 class MyFramework : public Framework {
 
@@ -24,28 +25,14 @@ public:
 		width = WINDOW_WIDTH;
 		height = WINDOW_HEIGHT;
 		if (WINDOW_WIDTH == 0 && WINDOW_HEIGHT == 0)
-		{
 			fullscreen = true;
-		}
-		fullscreen = false;
+		else
+			fullscreen = false;
 	}
 
 	virtual bool Init() {
-		background = createSprite("data/background_2.png");
 
-		for (int i = 0; i < NUM_ASTEROIDS; i++)
-		{
-			if (i < NUM_ASTEROIDS / 2)
-			{
-				asteroids.push_back(new BigAsteroid(asteroids, (rand() % 5 + 1)));
-			}
-			else
-			{
-				asteroids.push_back(new SmallAsteroid(asteroids, (rand() % 5 + 1)));
-			}
-		}
-		battleship = new Character();
-		reticle = new Reticle();
+		
 		return true;
 	}
 
@@ -111,11 +98,13 @@ public:
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
+		map_manager->mouse_move_event->Notify(x, y);
 		reticle->SetPos(x, y);
 		battleship->SetRot(x, y);
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
+		map_manager->mouse_click_event->Notify(button, isReleased);
 		switch (button)
 		{
 		case FRMouseButton::LEFT:
@@ -134,6 +123,7 @@ public:
 	}
 
 	virtual void onKeyPressed(FRKey k) {
+		map_manager->key_press_event->Notify(k);
 		for (auto asteroid : asteroids)
 		{
 			asteroid->MoveManual(k);
@@ -153,6 +143,15 @@ public:
 		return "asteroids";
 	}
 private:
+
+	///
+	std::unique_ptr<MapCreator> map_manager;
+	/// 
+	
+
+
+
+
 	//Asteroid* a1;
 	Sprite* background;
 	Character* battleship;

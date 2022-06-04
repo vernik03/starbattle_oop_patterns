@@ -6,9 +6,13 @@ class Interface
 public:
 	Interface();
 	~Interface();
+	
+	Reticle GetReticle() {
+		return reticle;
+	}
 
 private:
-
+	Reticle reticle;
 };
 
 class Reticle : public HeadSprite
@@ -25,6 +29,10 @@ public:
 		global_x = new_x - height / 2 + WINDOW_X;
 		global_y = new_y - width / 2 + WINDOW_Y;
 	}
+
+	void SendMouseMoveEvent(auto x, auto y) {
+		SetCoords(x, y);
+	};
 
 private:
 

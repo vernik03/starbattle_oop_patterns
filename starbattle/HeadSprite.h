@@ -18,6 +18,11 @@ public:
 		global_y = new_y;
 	}
 
+	virtual void SetCoordsByCenter(double new_x, double new_y) {
+		global_x = new_x - width / 2;
+		global_y = new_y - height / 2;
+	}
+
 	virtual void Draw() {
 		drawSprite(sprite, x(), y());
 	}
@@ -53,6 +58,13 @@ public:
 	double y() {
 		return global_y - WINDOW_Y;
 	}
+
+	virtual  void SendMouseMoveEvent(...) {};
+
+	virtual  void SendMouseClickEvent(...) {};
+	
+	virtual  void SendKeyPressEvent(...) {};
+	
 
 protected:
 	Sprite* sprite;

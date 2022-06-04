@@ -63,7 +63,7 @@ private:
 class BigAsteroid : public Asteroid
 {
 public:
-	BigAsteroid() {
+	BigAsteroid(int x, int y) {
 		sprite = createSprite("data/big_asteroid.png"); // легковес!!
 		width = 68;
 		height = 60;
@@ -88,7 +88,7 @@ private:
 class SmallAsteroid : public Asteroid
 {
 public:
-	SmallAsteroid() {
+	SmallAsteroid(int x, int y) {
 		sprite = createSprite("data/small_asteroid.png");// легковес!!
 		width = 44;
 		height = 36;
