@@ -42,20 +42,11 @@ public:
 
 	virtual bool Tick() {
 		showCursor(false);
-		for (int i = 0; i < WINDOW_WIDTH; i += 1000)
-		{
-			for (int j = 0; j < WINDOW_HEIGHT; j += 1000)
-			{
-				drawSprite(background, i - 100, j - 100);
-			}
-		}
-
-		std::vector<Asteroid*> asteroids_temp;
-		for (auto asteroid : asteroids)
-		{
-			asteroid->EachOtherCollision(asteroids);
-			asteroid->Move();
-			asteroid->Draw();
+		
+		map_manager->DrawAll();
+		map_manager->CheckCollisionsAll();
+		map_manager->MoveAll();
+		
 			if (battleship->CheckCollision(asteroid))
 			{
 				std::cout << "Game over!" << "\n";

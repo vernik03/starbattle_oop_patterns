@@ -11,6 +11,10 @@ public:
 		return reticle;
 	}
 
+	void Draw() {
+		reticle.Draw();
+	}
+
 private:
 	Reticle reticle;
 };
@@ -33,6 +37,9 @@ public:
 	void SendMouseMoveEvent(auto x, auto y) {
 		SetCoords(x, y);
 	};
+
+	
+	
 
 private:
 

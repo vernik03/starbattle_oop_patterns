@@ -25,6 +25,15 @@ public:
 		WINDOW_X = GetCenter().first - WINDOW_WIDTH / 2;
 		WINDOW_Y = GetCenter().second - WINDOW_HEIGHT / 2;
 		UseImpulse();
+
+		for(auto bullet : bullets) {
+			bullet->Move();
+		}
+		
+		if (dynamic_cast<Shield*>(power))
+		{
+			power->SetCoordsByCenter(GetCenterGlobal().first, GetCenterGlobal().second);
+		}		
 	}
 
 	virtual bool CheckCollision(HeadSprite* element) {
@@ -77,6 +86,20 @@ public:
 		}
 	}
 
+	void Draw() override {
+		drawSprite(sprite, x(), y());
+		if (power)
+		{
+			power->Draw();
+		}
+		for (auto bullet : bullets)
+		{
+			bullet->Draw();
+		}
+		
+	}
+
+
 	void Shoot() {
 		bullets.push_back(new Bullet(GetCoords().first + GetSize().second / 2, GetCoords().second + GetSize().first / 2));
 	}
@@ -88,6 +111,7 @@ protected:
 	double control_impulse = 0.01;
 	double engine_power_speed = 2;
 	std::vector<Bullet*> bullets;
+	Sprite* engine;
 };
 
 class MainHeroShip : public Ship
@@ -95,6 +119,7 @@ class MainHeroShip : public Ship
 public:
 	MainHeroShip() {
 		sprite = createSprite("data/ships/main_hero/spaceship.png");
+		engine = createSprite("data/ships/main_hero/engine.png");
 		width = 48;
 		height = 48;
 		rotation = Rotation::Top;
